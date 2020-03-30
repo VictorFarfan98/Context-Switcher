@@ -19,6 +19,15 @@ namespace Context_Switch
         //PCBs Queue
         Queue<PCB> PCBqueue = new Queue<PCB>();
 
+
+        //Screen drawing variables
+        static List<string> area1 = new List<string>();
+        static List<string> area2 = new List<string>();
+        static List<string> area3 = new List<string>();
+        static List<string> area4 = new List<string>();
+        static int areaHeights;
+        static int areaWidths;
+
         //Funcion 1 del programa 1
         public static void f1()
         {
@@ -66,16 +75,132 @@ namespace Context_Switch
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //Console.WriteLine("Hello World!");
 
+            //drawScreen();
+
+            int i = 0;
             while (true)
             {
                 int height = Console.WindowHeight;
                 int width = Console.WindowWidth;
 
-                Console.WriteLine("Height: " + height + "\nWidth: " + width);
+                //Console.WriteLine("Height: " + height + "\nWidth: " + width);
+
+
+                
+                i++;
+
+
+                //Console.WriteLine("AreaHeight: " + areaHeights + "\nAreaWidth: " + areaWidths);
+
+                // jumb between areas                
+                if(i % 4 == 0)
+                {
+                    AddLineToBuffer(ref area4, i.ToString());
+                }
+                else if(i % 3 == 0)
+                {
+                    AddLineToBuffer(ref area3, i.ToString());
+                }
+                else if(i % 2 == 0)
+                {
+                    AddLineToBuffer(ref area2, i.ToString());
+                }
+                else
+                {
+                    AddLineToBuffer(ref area1, i.ToString());
+                }
+
+                drawScreen();
+                Console.ReadKey();
+            }
+
+        }
+
+        private static void AddLineToBuffer(ref List<string> areaBuffer, string line)
+        {
+            areaBuffer.Insert(0, line);
+
+            if (areaBuffer.Count == areaHeights)
+            {
+                areaBuffer.RemoveAt(areaHeights - 1);
+
+            }
+        }
+
+
+        private static void drawScreen()
+        {
+            try
+            {
+                Console.Clear();
+                areaHeights = (Console.WindowHeight - 2) / 2;
+                areaWidths = (Console.WindowWidth) / 2;
+
+                // Draw the area divider for rows
+                for (int i = 0; i < Console.WindowWidth; i++)
+                {
+                    Console.SetCursorPosition(i, areaHeights);
+                    Console.Write('-');
+
+                }
+                // Draw the area divider for columns
+                for (int i = 0; i < Console.WindowHeight - 2; i++)
+                {
+                    Console.SetCursorPosition(areaWidths, i);
+                    Console.Write('|');
+                }
+
+
+                //Draw Area1
+                int currentLine = areaHeights - 1;
+
+                for (int i = 0; i < area1.Count; i++)
+                {
+                    Console.SetCursorPosition(0, currentLine - (i + 1));
+                    Console.WriteLine(area1[i]);
+
+                }
+
+
+                //Draw Area2
+                currentLine = areaHeights - 1;
+                int currentColumn = areaWidths + 1;
+                for (int i = 0; i < area2.Count; i++)
+                {
+                    Console.SetCursorPosition(currentColumn, currentLine - (i + 1));
+                    Console.WriteLine(area2[i]);
+
+                }
+
+                //Draw Area3
+                currentLine = (areaHeights * 2);
+                for (int i = 0; i < area3.Count; i++)
+                {
+                    Console.SetCursorPosition(0, currentLine - (i + 1));
+                    Console.WriteLine(area3[i]);
+                }
+
+
+                //Draw Area4
+                currentLine = (areaHeights * 2);
+                for (int i = 0; i < area4.Count; i++)
+                {
+                    Console.SetCursorPosition(currentColumn, currentLine - (i + 1));
+                    Console.WriteLine(area4[i]);
+                }
+
+
+                Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                Console.Write("> ");
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+
             }
             
+
         }
 
 
