@@ -22,42 +22,63 @@ namespace Context_Switch
         //Funcion 1 del programa 1
         public static void f1()
         {
-            if(a > 2000)
+            while(true)
             {
-                a = 0;
+                if (a > 2000)
+                {
+                    a = 0;
+                }
+                a++;
+                //Here goes a print
             }
-            a++;
-            //Here goes a print
+
         }
 
         //Funcion 1 del programa 2
         public static void f2()
         {
-            if(b > 12000)
+            while (true)
             {
-                b = 1;
+                if (b > 12000)
+                {
+                    b = 1;
+                }
+                b = b * (b + 1);
+                //Here goes a print
             }
-            b = b * (b + 1);
-            //Here goes a print
         }
 
         //Funcion 1 del programa 3
         public static void f3()
         {
-            //Current PCB quantum
-            c = currentPCB.quantum;
+            while (true)
+            {
+                //Current PCB quantum
+                c = currentPCB.quantum;
 
-            //Should be PCB memory location
-            d = currentPCB.quantum;
+                //Should be PCB memory location
+                d = currentPCB.quantum;
 
-            //Here goes a print
+                //Here goes a print
+            }
 
         }
 
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
+            while (true)
+            {
+                int height = Console.WindowHeight;
+                int width = Console.WindowWidth;
+
+                Console.WriteLine("Height: " + height + "\nWidth: " + width);
+            }
+            
         }
+
+
     }
 
     public class PCB
