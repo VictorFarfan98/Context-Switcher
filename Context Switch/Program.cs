@@ -80,8 +80,7 @@ namespace Context_Switch
 
             //drawScreen();
 
-            int i = 0;
-            Console.WriteLine("Hello World!");
+            int i = 0;            
             ProcessAdmin admin = new ProcessAdmin();
             admin.getInput(); // getting options from user afterwards: verify received input.
             admin.listener();
