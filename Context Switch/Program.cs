@@ -16,11 +16,7 @@ namespace Context_Switch
 
         //Current PCB
         static PCB currentPCB;
-
-        //PCBs Queue
-        Queue<PCB> PCBqueue = new Queue<PCB>();
-
-
+       
         //ScreenManger instance
         static ScreenManager sm = new ScreenManager();
 
