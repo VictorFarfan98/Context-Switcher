@@ -7,10 +7,7 @@ using System.Linq;
 namespace Context_Switch
 {
     class Program
-    {
-        //Variables that all functions will access
-        static int a = 0, b = 1, c, d, cont;
-
+    {       
         //Current Process
         static int pid;
 
@@ -20,19 +17,25 @@ namespace Context_Switch
         //ScreenManger instance
         static ScreenManager sm = new ScreenManager();
 
+        //Variables that all functions will access
+        static int a = 0, b = 1, c, d, cont;
+
         //Funcion 1 del programa 1
         public static void f1()
         {
-            while(true)
+            while (true)
             {
                 if (a > 2000)
                 {
                     a = 0;
                 }
                 a++;
-                //Here goes a print
 
-                
+                //Here goes a print
+                Console.WriteLine("Funcion {0}, ProcessID: {1}, Resultado: {2}", 1, currentPCB.idproc, a);
+
+                currentPCB.quantumProgress++;
+                //checkProgress();
             }
 
         }
@@ -48,6 +51,10 @@ namespace Context_Switch
                 }
                 b = b * (b + 1);
                 //Here goes a print
+                Console.WriteLine("Funcion {0}, ProcessID: {1}, Resultado: {2}", 2, currentPCB.idproc, b);
+
+                currentPCB.quantumProgress++;
+                //checkProgress();
             }
         }
 
@@ -63,21 +70,33 @@ namespace Context_Switch
                 d = currentPCB.quantum;
 
                 //Here goes a print
+                Console.WriteLine("Funcion {0}, ProcessID: {1}, Resultado: {2}", 3, currentPCB.idproc, c);
+
+                currentPCB.quantumProgress++;
+                //checkProgress();
             }
 
         }
 
-        static void Main(string[] args)
+        public static void idle()
         {
-            //Console.WriteLine("Hello World!");
+            while (true)
+            {
+                Console.WriteLine("Soy idle...");
+            }
+            
+        }
 
+        static void Main(string[] args)
+        {            
             //drawScreen();
 
             int i = 0;            
             ProcessAdmin admin = new ProcessAdmin();
             
             //admin.listener();
-
+            //currentPCB = admin.getCurrentRunningProcess()
+            
             
             while (true)
             {

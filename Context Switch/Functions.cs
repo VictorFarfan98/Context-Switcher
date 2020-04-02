@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Context_Switch
 {
-    public  class Functions
+    public class Functions
     {
-
+        
         public void waitForKeyPress()
         {
             Console.WriteLine("Press ANY key to continue...");

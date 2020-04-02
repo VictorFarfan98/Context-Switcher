@@ -12,6 +12,9 @@ namespace Context_Switch
         public List<string> area2 = new List<string>();
         public List<string> area3 = new List<string>();
         public List<string> area4 = new List<string>();
+
+        //List<List<string>> areas = new List<List<string>>
+
         public int areaHeights;
         public int areaWidths;
 
@@ -25,6 +28,7 @@ namespace Context_Switch
 
             }
         }
+
 
 
         public void drawScreen()

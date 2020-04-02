@@ -56,6 +56,14 @@ namespace Context_Switch
             return active;
         }
 
+        public void checkProgress()
+        {
+            if(quantumProgress == quantum)
+            {
+                this.state = 3;
+                deactivate();
+            }
+        }
 
     }
 }

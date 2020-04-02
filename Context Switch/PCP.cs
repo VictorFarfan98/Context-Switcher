@@ -6,14 +6,14 @@ namespace Context_Switch
 {
     public class PCP
     {
-        List<PCB> PCB_cola = new List<PCB>();
+        public List<PCB> PCB_cola = new List<PCB>();
 
         public void PCB_encola(PCB newPCB)
         {
             
             PCB_cola.Add(newPCB);
             Console.WriteLine("Se insertó a cola Idproc:  {0}\n", newPCB.idproc);
-  
+            
         }
 
 
@@ -28,36 +28,31 @@ namespace Context_Switch
           
         }
 
-        public void PCB_chn(int idp, int qtm){
-          bool encontro = false;
+        public bool PCB_chn(int idp, int qtm){
+          
           foreach(PCB pcb in PCB_cola){
             if(pcb.idproc == idp){
               Console.WriteLine("Nuevo Quantum {0} asignado al Proceso ID#{1}",qtm,pcb.idproc);
               pcb.quantum = qtm;
-              encontro = true;
+              return true;
             }
             //Console.WriteLine("IdP: {0}\n",pcb.idproc);
           }
-          if(!encontro){
-            Console.WriteLine("No se pudo cambiar el quantum {1} del proceso #{0} | Ya que no fue encontrado. \n",idp,qtm);
-          }
+          return false;
 
         }
 
-        public void PCB_kill(int idp){
-          bool encontro = false;
+        public bool PCB_kill(int idp){          
           foreach(PCB pcb in PCB_cola){
             if(pcb.idproc == idp){
               PCB_cola.Remove(pcb);
-              encontro = true;
+              
               Console.WriteLine("Proceso ID#{0} killed",pcb.idproc);
-              break;
+              return true;              
             }
             //Console.WriteLine("IdP: {0}\n",pcb.idproc);
           }
-          if(!encontro){
-            Console.WriteLine("No se pudo kill el proceso proceso #{0} | Ya que no fue encontrado. \n",idp);
-          }
+            return false;
         }
 
     }

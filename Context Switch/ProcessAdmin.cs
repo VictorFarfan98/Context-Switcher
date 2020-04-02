@@ -14,10 +14,11 @@ namespace Context_Switch
 
         private Functions f = new Functions();
         private PCP pcp = new PCP();
+        private PLP plp = new PLP();
 
         public void listener()
         {
-
+            
             Console.WriteLine("Press ESC to stop.");
             do
             {
@@ -90,11 +91,11 @@ namespace Context_Switch
                     //Console.WriteLine(cmd);
                     //Console.WriteLine(cmd.Length.ToString());
                     if(cmds.Length == 3)
-                    {
-                        
+                    {                        
                         Console.WriteLine("Command Add: \n Function Type: {0} \n Quantum Number: {1}", cmds[1], cmds[2]);
                         PCB current_pcb = new PCB(Convert.ToInt32(cmds[2]),Convert.ToInt32(cmds[1]));
                         pcp.PCB_encola(current_pcb);
+                        pcp.PCB_cola = plp.manageQueue(pcp.PCB_cola);
                         f.waitForKeyPress();
                     }
                     else
@@ -107,8 +108,21 @@ namespace Context_Switch
                 case "Chn":
                     // code block to execute when comand is Chn (change)
                     if(cmds.Length == 3){
+                        bool encontro;
+                        int idp = Convert.ToInt32(cmds[1]);
+                        int qtm = Convert.ToInt32(cmds[2]);
+
                         Console.WriteLine("Command Chn: \n ProcessId: {0} \n Quantum Number: {1}", cmds[1], cmds[2]);
-                        pcp.PCB_chn(Convert.ToInt32(cmds[1]), Convert.ToInt32(cmds[2]));
+                        encontro = pcp.PCB_chn(Convert.ToInt32(cmds[1]), Convert.ToInt32(cmds[2]));
+
+                        if(encontro)
+                        {
+                            Console.WriteLine("Nuevo Quantum {0} asignado al Proceso ID#{1}", qtm, idp);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No se pudo cambiar el quantum {1} del proceso #{0} | Ya que no fue encontrado. \n", idp, qtm);
+                        }
                         f.waitForKeyPress();
                     } else {
                         Console.WriteLine("Incomplete command.");
@@ -119,15 +133,36 @@ namespace Context_Switch
                 case "Lstprc":
                     // code block to execute when comand is Lstprc (list processes)
                     Console.WriteLine("Command Listprc");
+                    plp.PLP_list();
                     pcp.PCB_list();
+
                     f.waitForKeyPress();
                     break;
                 case "Kill":
                     // code block to execute when command is Kill
                     if(cmds.Length == 2)
                     {
-                        pcp.PCB_kill(Convert.ToInt32(cmds[1]));
+                        bool encontro;
+
+                        encontro = plp.PLP_kill(Convert.ToInt32(cmds[1]));
+                        if (!encontro)
+                        {
+                            pcp.PCB_kill(Convert.ToInt32(cmds[1]));
+                        }
+                        
                         Console.WriteLine("ProcessId {0} kiled \n", cmds[1]);
+
+
+                        if (encontro)
+                        {
+                            Console.WriteLine("Proceso ID#{0} killed", Convert.ToInt32(cmds[1]));
+                        }
+                        else
+                        {
+                            Console.WriteLine("No se pudo kill el proceso proceso #{0} | Ya que no fue encontrado. \n", Convert.ToInt32(cmds[1]));
+                        }
+
+
                         f.waitForKeyPress();
                     }
                     else
@@ -145,6 +180,8 @@ namespace Context_Switch
             }
 
         }
+
+
 
     }
 }
