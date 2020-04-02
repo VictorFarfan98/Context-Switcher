@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Linq;
 
@@ -13,6 +13,7 @@ namespace Context_Switch
         String[] accepted_cmds = new string[] { "Add", "Chn", "Lstprc", "Kill", "-h" };
 
         private Functions f = new Functions();
+        private PCP pcp = new PCP();
 
         public void listener()
         {
@@ -92,6 +93,8 @@ namespace Context_Switch
                     {
                         
                         Console.WriteLine("Command Add: \n Function Type: {0} \n Quantum Number: {1}", cmds[1], cmds[2]);
+                        PCB current_pcb = new PCB(Convert.ToInt32(cmds[2]),Convert.ToInt32(cmds[1]));
+                        pcp.PCB_encola(current_pcb);
                         f.waitForKeyPress();
                     }
                     else
@@ -105,8 +108,9 @@ namespace Context_Switch
                     // code block to execute when comand is Chn (change)
                     if(cmds.Length == 3){
                         Console.WriteLine("Command Chn: \n ProcessId: {0} \n Quantum Number: {1}", cmds[1], cmds[2]);
-                    }
-                    {
+                        pcp.PCB_chn(Convert.ToInt32(cmds[1]), Convert.ToInt32(cmds[2]));
+                        f.waitForKeyPress();
+                    } else {
                         Console.WriteLine("Incomplete command.");
                         f.waitForKeyPress();
                     }
@@ -115,12 +119,16 @@ namespace Context_Switch
                 case "Lstprc":
                     // code block to execute when comand is Lstprc (list processes)
                     Console.WriteLine("Command Listprc");
+                    pcp.PCB_list();
+                    f.waitForKeyPress();
                     break;
                 case "Kill":
                     // code block to execute when command is Kill
                     if(cmds.Length == 2)
                     {
-                        Console.WriteLine("Command Kill: \n ProcessId {0}\n", cmds[1]);
+                        pcp.PCB_kill(Convert.ToInt32(cmds[1]));
+                        Console.WriteLine("ProcessId {0} kiled \n", cmds[1]);
+                        f.waitForKeyPress();
                     }
                     else
                     {

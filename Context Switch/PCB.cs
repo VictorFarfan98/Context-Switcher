@@ -6,6 +6,7 @@ namespace Context_Switch
 {
     public class PCB
     {
+        public int idproc;
         public int quantum;
         public int quantumProgress;
         public int function_number;
@@ -31,6 +32,12 @@ namespace Context_Switch
              quantum = amount of "time" the process should be active
              function = # of the function it is going to execute
              */
+            
+            // setting a random processID for the user to save.
+            Random rnd = new Random();
+            this.idproc = rnd.Next(1000);  
+            // -----------------RANDOM END -------
+            
             this.quantum = quantum;
             this.function_number = function;
             this.state = 0;
