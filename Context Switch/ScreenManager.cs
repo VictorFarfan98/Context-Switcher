@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Context_Switch
 {
@@ -13,23 +14,52 @@ namespace Context_Switch
         public List<string> area3 = new List<string>();
         public List<string> area4 = new List<string>();
 
-        //List<List<string>> areas = new List<List<string>>
+        //List<List<string>> areas = new List<List<string>> {area1, area2, area3, area4};
 
         public int areaHeights;
         public int areaWidths;
 
         public void AddLineToBuffer(ref List<string> areaBuffer, string line)
         {
-            areaBuffer.Insert(0, line);
-
-            if (areaBuffer.Count == areaHeights)
+            try
             {
-                areaBuffer.RemoveAt(areaHeights - 1);
+                areaBuffer.Insert(0, line);
+                //areaBuffer.Add(line);
+
+                if (areaBuffer.Count > areaHeights)
+                {
+                    areaBuffer.RemoveAt(areaHeights - 1);
+                    //areaBuffer.RemoveRange(areaHeights - 1, areaBuffer.Count - areaHeights - 1);
+
+                }
+                //Console.WriteLine(areaBuffer.Count);
+            }
+            catch (System.ArgumentException)
+            {
 
             }
+            
         }
 
-
+        public void chooseQuadrant(int quadrant, string text)
+        {
+            if(quadrant == 1)
+            {
+                AddLineToBuffer(ref area1, text);
+            }
+            else if(quadrant == 2)
+            {
+                AddLineToBuffer(ref area2, text);
+            }
+            else if (quadrant == 3)
+            {
+                AddLineToBuffer(ref area3, text);
+            }
+            else if (quadrant == 4)
+            {
+                AddLineToBuffer(ref area4, text);
+            }
+        }
 
         public void drawScreen()
         {
@@ -94,7 +124,9 @@ namespace Context_Switch
 
 
                 Console.SetCursorPosition(0, Console.WindowHeight - 1);
-                //Console.Write("> ");
+                Console.Write("> ");
+                Console.Write("Enter your command (-h to get help):\t");
+                //System.Threading.Thread.Sleep(5 * 1000);
             }
             catch (ArgumentOutOfRangeException)
             {

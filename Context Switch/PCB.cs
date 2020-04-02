@@ -10,6 +10,8 @@ namespace Context_Switch
         public int quantum;
         public int quantumProgress;
         public int function_number;
+        public Action funcion;
+        public int quadrant;
         private volatile bool active; //Defines if the PCB is currently active on a thread
 
         /* Possible states
@@ -50,6 +52,7 @@ namespace Context_Switch
         public void deactivate()
         {
             this.active = false;
+            
         }
         public bool isActive()
         {
