@@ -29,7 +29,7 @@ namespace Context_Switch
         */
         public void isBackground()
         {
-            this.background = true;
+            //this.background = true;
         }
 
         //Initiliaze all kernel threads

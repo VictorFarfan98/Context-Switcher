@@ -9,18 +9,21 @@ namespace Context_Switch
     class PLP
     {
         ThreadManager tm = new ThreadManager();
-
+        /*
         //List of Kernel Processes
         List<PCB> kernelProcesses = new List<PCB>();
         //Listo of user Processes
         List<PCB> userProcesses = new List<PCB>();
-
+        */
 
         //List of all Processes
         List<PCB> runningProcesses = new List<PCB>();
 
         //List of terminated processes 
         List<PCB> terminatedProcesses = new List<PCB>();
+
+        //Current index of running PCB
+        private int currentIndex = 0;
 
         public void addToKernel(PCB PCBtoadd)
         {
