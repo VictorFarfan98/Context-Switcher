@@ -18,13 +18,19 @@ namespace Context_Switch
         */
 
         //List of all Processes
-        List<PCB> runningProcesses = new List<PCB>();
+        public List<PCB> runningProcesses = new List<PCB>();
 
         //List of terminated processes 
-        List<PCB> terminatedProcesses = new List<PCB>();
+        public List<PCB> terminatedProcesses = new List<PCB>();
 
         //Current index of running PCB
         private int currentIndex = 0;
+
+        public PLP()
+        {
+            PCB idle = new PCB(0, 0);
+            runningProcesses.Add(idle);
+        }
 
         public void addToKernel(PCB PCBtoadd)
         {
@@ -45,26 +51,36 @@ namespace Context_Switch
         }
 
         public PCB getNextPCB()
-        {
+        {        
+            
             if (currentIndex == runningProcesses.Count)
             {
                 currentIndex = 0;
             }
             PCB nextPCB = runningProcesses[currentIndex];
             currentIndex++;
-
+            
             return nextPCB;
         }
 
         public List<PCB> manageQueue(List<PCB> cola)
         {
-            //Pending to add kernel processes to count
-            if(runningProcesses.Count < 4)
-            {                
-                runningProcesses.Add(cola[0]);
-                cola.RemoveAt(0);
-                cola.TrimExcess();                
+            try
+            {
+                //Pending to add kernel processes to count
+                if (runningProcesses.Count < 4)
+                {
+                    
+                    runningProcesses.Add(cola[0]);
+                    cola.RemoveAt(0);
+                    //cola.TrimExcess();
+                }
             }
+            catch (ArgumentOutOfRangeException)
+            {
+
+            }
+            
             return cola;
         }
 
@@ -78,7 +94,7 @@ namespace Context_Switch
                     terminatedProcesses.Add(pcb); //Manage history of terminated processes
                     runningProcesses.Remove(pcb);
                     
-                    Console.WriteLine("Proceso ID#{0} killed", pcb.idproc);
+                    //Console.WriteLine("Proceso ID#{0} killed", pcb.idproc);
                     return true;
                     
                 }

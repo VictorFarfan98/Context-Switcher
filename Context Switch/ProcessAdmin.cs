@@ -92,11 +92,20 @@ namespace Context_Switch
                     //Console.WriteLine(cmd.Length.ToString());
                     if(cmds.Length == 3)
                     {                        
-                        Console.WriteLine("Command Add: \n Function Type: {0} \n Quantum Number: {1}", cmds[1], cmds[2]);
-                        PCB current_pcb = new PCB(Convert.ToInt32(cmds[2]),Convert.ToInt32(cmds[1]));
-                        pcp.PCB_encola(current_pcb);
-                        pcp.PCB_cola = plp.manageQueue(pcp.PCB_cola);
-                        f.waitForKeyPress();
+                        if((Convert.ToInt32(cmds[1]) > 0) && (Convert.ToInt32(cmds[1]) < 4))
+                        {
+                            Console.WriteLine("Command Add: \n Function Type: {0} \n Quantum Number: {1}", cmds[1], cmds[2]);
+                            PCB current_pcb = new PCB(Convert.ToInt32(cmds[2]), Convert.ToInt32(cmds[1]));
+                            pcp.PCB_encola(current_pcb);
+                            pcp.PCB_cola = plp.manageQueue(pcp.PCB_cola);
+                            f.waitForKeyPress();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid function number");
+                            f.waitForKeyPress();
+                        }
+                        
                     }
                     else
                     {
@@ -150,12 +159,13 @@ namespace Context_Switch
                             pcp.PCB_kill(Convert.ToInt32(cmds[1]));
                         }
                         
-                        Console.WriteLine("ProcessId {0} kiled \n", cmds[1]);
+                       // Console.WriteLine("ProcessId {0} kiled \n", cmds[1]);
 
 
                         if (encontro)
                         {
                             Console.WriteLine("Proceso ID#{0} killed", Convert.ToInt32(cmds[1]));
+                            pcp.PCB_cola = plp.manageQueue(pcp.PCB_cola);
                         }
                         else
                         {
@@ -181,7 +191,14 @@ namespace Context_Switch
 
         }
 
+        public PCB getRunningPCB()
+        {
+            Console.WriteLine(plp.runningProcesses.Count());
+            PCB next = plp.getNextPCB();
+            
 
+            return next;
+        }
 
     }
 }

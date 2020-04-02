@@ -27,7 +27,7 @@ namespace Context_Switch
         public static void f1()
         {
             while (currentPCB.quantumProgress < currentPCB.quantum)
-            {
+            { 
                 if (a > 2000)
                 {
                     a = 0;
@@ -41,7 +41,6 @@ namespace Context_Switch
                 currentPCB.quantumProgress++;
                 currentPCB.checkProgress();
             }
-
         }
 
         //Funcion 1 del programa 2
@@ -88,7 +87,31 @@ namespace Context_Switch
         {
             sm.chooseQuadrant(currentPCB.quadrant, "Soy idle...");                  
         }
-        
+
+        public static void chooseFunc(PCB pcb)
+        {
+            switch (pcb.function_number)
+            {
+                case 0:
+                    pcb.funcion = idle;
+                    pcb.quadrant = 4;
+                    break;
+                case 1:
+                    pcb.funcion = f1;
+                    pcb.quadrant = 1;
+                    break;
+                case 2:
+                    pcb.funcion = f2;
+                    pcb.quadrant = 2;
+                    break;
+                case 3:
+                    pcb.funcion = f3;
+                    pcb.quadrant = 3;
+                    break;
+            }
+        }
+
+        [Obsolete]
         static void Main(string[] args)
         {
             //drawScreen();
@@ -96,7 +119,7 @@ namespace Context_Switch
             
             testingPCB.funcion = f1;
             testingPCB.quadrant = 1;
-            currentPCB = testingPCB;
+            //currentPCB = testingPCB;
 
 
             PCB otroPCB = new PCB(5, 1);
@@ -110,13 +133,16 @@ namespace Context_Switch
 
             //admin.listener();
             //currentPCB = admin.getCurrentRunningProcess()
-
+            currentPCB = admin.getRunningPCB();
             currentPCB.activate();
             while (true)
             {
                 try
                 {
                     Thread input = new Thread(() => admin.getInput());
+                    //Console.WriteLine(currentPCB.idproc);
+                    chooseFunc(currentPCB);
+
 
                     currentPCB.funcion();
                     sm.drawScreen();
@@ -132,16 +158,17 @@ namespace Context_Switch
                     //sm.drawScreen();
                     //Thread t2 = new Thread(() => admin.getInput());
                     //t2.Start();
-                    //admin.getInput();
-                    Console.WriteLine(sm.area1.Count());
-                    System.Threading.Thread.Sleep(5 * 1000);
-                    currentPCB = otroPCB;
+                    //admin.getInput();                    
+                    currentPCB = admin.getRunningPCB();
+                    
+                    
+                    
                 }
                 catch (System.ArgumentException)
                 {
 
                 }
-                
+                System.Threading.Thread.Sleep(6 * 1000);
                 /*
                 int height = Console.WindowHeight;
                 int width = Console.WindowWidth;
@@ -173,7 +200,7 @@ namespace Context_Switch
                     sm.AddLineToBuffer(ref sm.area1, i.ToString());
                 }
                 */
-                
+
                 //admin.getInput(); // getting options from user afterwards: verify received input.
             }
 
