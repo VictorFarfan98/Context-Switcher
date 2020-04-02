@@ -26,9 +26,10 @@ namespace Context_Switch
                 areaBuffer.Insert(0, line);
                 //areaBuffer.Add(line);
 
-                if (areaBuffer.Count > areaHeights)
+                if (areaBuffer.Count >= areaHeights)
                 {
                     areaBuffer.RemoveAt(areaHeights - 1);
+                    areaBuffer.RemoveAt(areaHeights - 2);
                     //areaBuffer.RemoveRange(areaHeights - 1, areaBuffer.Count - areaHeights - 1);
 
                 }
@@ -122,10 +123,11 @@ namespace Context_Switch
                     Console.WriteLine(area4[i]);
                 }
 
+                
 
                 Console.SetCursorPosition(0, Console.WindowHeight - 1);
-                Console.Write("> ");
-                Console.Write("Enter your command (-h to get help):\t");
+                //Console.Write("> ");
+                //Console.Write("Enter your command (-h to get help):\t");
                 //System.Threading.Thread.Sleep(5 * 1000);
             }
             catch (ArgumentOutOfRangeException)

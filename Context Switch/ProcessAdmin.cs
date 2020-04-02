@@ -38,7 +38,7 @@ namespace Context_Switch
 
         public void getInput()
         {
-            //Console.Write("\nEnter your command (-h to get help):\t");
+            Console.Write("\nEnter your command (-h to get help):\t");
             cmd = Console.ReadLine();
             if (string.IsNullOrEmpty(cmd))
             {

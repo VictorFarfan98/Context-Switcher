@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 namespace Context_Switch
 {
     class Program
-    {       
+    {
+        private static EventWaitHandle wh = new AutoResetEvent(false);
+
+
         //Current Process
         static int pid;
 
@@ -23,7 +26,7 @@ namespace Context_Switch
         //Funcion 1 del programa 1
         public static void f1()
         {
-            while (true)
+            while (currentPCB.quantumProgress < currentPCB.quantum)
             {
                 if (a > 2000)
                 {
@@ -34,7 +37,7 @@ namespace Context_Switch
                 //Here goes a print               
                 string texto = String.Format("Funcion {0}, ProcessID: {1}, Resultado: {2}", 1, currentPCB.idproc, a);
                 sm.chooseQuadrant(currentPCB.quadrant, texto);
-                Thread.Sleep(500);
+                //Thread.Sleep(500);
                 currentPCB.quantumProgress++;
                 currentPCB.checkProgress();
             }
@@ -42,9 +45,9 @@ namespace Context_Switch
         }
 
         //Funcion 1 del programa 2
-        public static void f2(int quadrant)
+        public static void f2()
         {
-            while (true)
+            while (currentPCB.quantumProgress < currentPCB.quantum)
             {
                 if (b > 12000)
                 {
@@ -54,16 +57,16 @@ namespace Context_Switch
                 
                 //Here goes a print                
                 string texto = String.Format("Funcion {0}, ProcessID: {1}, Resultado: {2}", 2, currentPCB.idproc, b);
-                sm.chooseQuadrant(quadrant, texto);
+                sm.chooseQuadrant(currentPCB.quadrant, texto);
                 currentPCB.quantumProgress++;
                 currentPCB.checkProgress();
             }
         }
 
         //Funcion 1 del programa 3
-        public static void f3(int quadrant)
+        public static void f3()
         {
-            while (true)
+            while (currentPCB.quantumProgress < currentPCB.quantum)
             {
                 //Current PCB quantum
                 c = currentPCB.quantum;
@@ -74,30 +77,36 @@ namespace Context_Switch
                 //Here goes a print
                 
                 string texto = String.Format("Funcion {0}, ProcessID: {1}, Resultado: {2}", 3, currentPCB.idproc, c);
-                sm.chooseQuadrant(quadrant, texto);
+                sm.chooseQuadrant(currentPCB.quadrant, texto);
                 currentPCB.quantumProgress++;
                 currentPCB.checkProgress();
             }
 
         }
 
-        public static void idle(int quadrant)
+        public static void idle()
         {
-            sm.chooseQuadrant(quadrant, "Soy idle...");                  
+            sm.chooseQuadrant(currentPCB.quadrant, "Soy idle...");                  
         }
-
-        [Obsolete]
+        
         static void Main(string[] args)
         {
             //drawScreen();
             PCB testingPCB = new PCB(10, 1);
+            
             testingPCB.funcion = f1;
             testingPCB.quadrant = 1;
             currentPCB = testingPCB;
 
 
+            PCB otroPCB = new PCB(5, 1);
+            otroPCB.quadrant = 2;
+            otroPCB.funcion = idle;
+
             int i = 0;            
             ProcessAdmin admin = new ProcessAdmin();
+
+
 
             //admin.listener();
             //currentPCB = admin.getCurrentRunningProcess()
@@ -107,28 +116,26 @@ namespace Context_Switch
             {
                 try
                 {
-                    Thread thread = new Thread(() => currentPCB.funcion());
-                    thread.Start();
-                    thread.Suspend();
-                    while (currentPCB.isActive())
-                    {
-                        thread.Resume();
-                        sm.drawScreen();
-                    }
-                    
+                    Thread input = new Thread(() => admin.getInput());
+
+                    currentPCB.funcion();
+                    sm.drawScreen();
+                    input.Start();
 
 
-                    
+
+
                     //Task screen = new Task(() => sm.drawScreen());
                     //screen.Start();
-                    
+
                     //thread.IsBackground = true;
                     //sm.drawScreen();
                     //Thread t2 = new Thread(() => admin.getInput());
                     //t2.Start();
                     //admin.getInput();
-                    
-                    System.Threading.Thread.Sleep(1 * 1000);
+                    Console.WriteLine(sm.area1.Count());
+                    System.Threading.Thread.Sleep(5 * 1000);
+                    currentPCB = otroPCB;
                 }
                 catch (System.ArgumentException)
                 {
