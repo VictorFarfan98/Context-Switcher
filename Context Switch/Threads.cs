@@ -72,13 +72,14 @@ namespace Context_Switch
             TimeSpan timeout = new TimeSpan(0, 0, 5); //Esto es solo para el parametro del sleep, no es neesario.
             Console.WriteLine("Thread 1 is working!");
 
-            for (int x =0; x <5; x++)
+            for (int x = 0; x < 5; x++)
             {
-                Console.WriteLine("Hello this is the " + (x+1).ToString() + " iteration of the loop. ---- Thread 1.");
+                Console.WriteLine("Hello this is the " + (x + 1).ToString() + " iteration of the loop. ---- Thread 1.");
                 // Sleep for 5 seconds 
                 // Using Sleep() method 
                 Thread.Sleep(timeout);
-            }Console.ReadKey(); //Para que la consola no se quite
+            }
+            Console.ReadKey(); //Para que la consola no se quite
 
         }
         // Funcion para el Thread 2
@@ -87,7 +88,7 @@ namespace Context_Switch
             for (int x = 0; x < 10; x++)
             {
                 Console.WriteLine("Thread 2 is working!");
-  
+
             }
             Console.WriteLine("\nThread 2 finished!\n");
         }
@@ -96,13 +97,13 @@ namespace Context_Switch
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!\n");
-            
+
             // Creacion de los threads y asignacion a las funciones que corresponden.
             Thread thread = new Thread(new ThreadStart(f4));
             Thread thread2 = new Thread(new ThreadStart(f5));
 
             // Nombre de los threads
-            thread.Name = "1st Thread";         
+            thread.Name = "1st Thread";
             thread2.Name = "2nd Thread";
 
             //Empieza Thread 1
@@ -145,4 +146,4 @@ namespace Context_Switch
 
 
     }
-    
+}
