@@ -94,19 +94,19 @@ namespace Context_Switch
             {
                 case 0:
                     pcb.funcion = idle;
-                    pcb.quadrant = 4;
+                    //pcb.quadrant = 4;
                     break;
                 case 1:
                     pcb.funcion = f1;
-                    pcb.quadrant = 1;
+                    //pcb.quadrant = 1;
                     break;
                 case 2:
                     pcb.funcion = f2;
-                    pcb.quadrant = 2;
+                    //pcb.quadrant = 2;
                     break;
                 case 3:
                     pcb.funcion = f3;
-                    pcb.quadrant = 3;
+                    //pcb.quadrant = 3;
                     break;
             }
         }
@@ -168,7 +168,7 @@ namespace Context_Switch
                 {
 
                 }
-                System.Threading.Thread.Sleep(6 * 1000);
+                System.Threading.Thread.Sleep(3 * 1000);
                 /*
                 int height = Console.WindowHeight;
                 int width = Console.WindowWidth;

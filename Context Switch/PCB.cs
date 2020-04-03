@@ -36,10 +36,10 @@ namespace Context_Switch
              */
             
             // setting a random processID for the user to save.
-            Random rnd = new Random();
-            this.idproc = rnd.Next(1000);  
+            Random rnd = new Random();            
+            this.idproc = rnd.Next(1000);
             // -----------------RANDOM END -------
-            
+
             this.quantum = quantum;
             this.function_number = function;
             this.state = 0;

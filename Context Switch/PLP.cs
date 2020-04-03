@@ -10,6 +10,8 @@ namespace Context_Switch
     {
         ThreadManager tm = new ThreadManager();
 
+        //Screens
+        bool[] screens = new bool[] { false, true, true, true };
         /*
         //List of Kernel Processes
         List<PCB> kernelProcesses = new List<PCB>();
@@ -29,6 +31,7 @@ namespace Context_Switch
         public PLP()
         {
             PCB idle = new PCB(0, 0);
+            idle.quadrant = 1;
             runningProcesses.Add(idle);
         }
 
@@ -70,8 +73,18 @@ namespace Context_Switch
                 //Pending to add kernel processes to count
                 if (runningProcesses.Count < 4)
                 {
-                    
-                    runningProcesses.Add(cola[0]);
+                    PCB newKernelPCB = cola[0];
+                    for(int i=0; i<4; i++)
+                    {
+                        if (screens[i])
+                        {
+                            newKernelPCB.quadrant = i + 1;
+                            screens[i] = false;
+                            break;
+                        }
+                    }
+                    runningProcesses.Add(newKernelPCB);
+                    //runningProcesses.Add(cola[0]);
                     cola.RemoveAt(0);
                     //cola.TrimExcess();
                 }
@@ -91,6 +104,7 @@ namespace Context_Switch
             {
                 if (pcb.idproc == idp)
                 {
+                    screens[pcb.quadrant - 1] = true;///************
                     terminatedProcesses.Add(pcb); //Manage history of terminated processes
                     runningProcesses.Remove(pcb);
                     
